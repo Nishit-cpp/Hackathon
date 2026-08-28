@@ -1,0 +1,2036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JanSahay AI — Voice First Assistant</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --navy: #071a52;
+    --blue: #1557c0;
+    --blue-light: #eaf2ff;
+    --orange: #ff9933;
+    --green: #138808;
+    --white: #ffffff;
+    --bg: #f5f7fb;
+    --text: #172033;
+    --muted: #667085;
+    --border: #dfe5ef;
+    --red: #d92d20;
+    --shadow: 0 15px 40px rgba(7, 26, 82, 0.10);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family:
+        "Segoe UI",
+        "Noto Sans",
+        Arial,
+        sans-serif;
+
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* =========================================================
+   GOVT TOP BAR (NEW)
+========================================================= */
+.govt-topbar {
+    background: #172033;
+    color: #e0e0e0;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* =========================================================
+   INDIAN FLAG STRIP
+========================================================= */
+
+.flag-strip {
+    height: 7px;
+
+    background:
+        linear-gradient(
+            to right,
+            var(--orange) 0%,
+            var(--orange) 33.33%,
+            white 33.33%,
+            white 66.66%,
+            var(--green) 66.66%,
+            var(--green) 100%
+        );
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    background: rgba(255,255,255,0.96);
+
+    border-bottom:
+        1px solid var(--border);
+
+    backdrop-filter: blur(15px);
+}
+
+.navbar {
+    width: min(1400px, 94%);
+    min-height: 75px;
+
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--navy),
+            var(--blue)
+        );
+
+    color: white;
+    font-size: 23px;
+
+    box-shadow:
+        0 7px 20px rgba(21,87,192,.25);
+}
+
+.brand-text h1 {
+    color: var(--navy);
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+.brand-text p {
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.nav {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.nav button {
+    border: none;
+    background: transparent;
+
+    padding: 9px 13px;
+
+    border-radius: 10px;
+
+    color: var(--navy);
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.nav button:hover {
+    background: var(--blue-light);
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.container {
+    width: min(1400px, 94%);
+    margin: auto;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    margin-top: 28px;
+
+    padding: 48px;
+
+    border-radius: 30px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #06164b,
+            #1557c0
+        );
+
+    box-shadow: var(--shadow);
+
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 330px;
+    height: 330px;
+
+    right: -100px;
+    top: -150px;
+
+    border-radius: 50%;
+
+    border: 55px solid
+        rgba(255,153,51,.13);
+}
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 250px;
+    height: 250px;
+
+    left: -170px;
+    bottom: -150px;
+
+    border-radius: 50%;
+
+    border: 45px solid
+        rgba(19,136,8,.12);
+}
+
+.hero-content {
+    max-width: 850px;
+    position: relative;
+    z-index: 2;
+}
+
+.badge {
+    display: inline-flex;
+
+    padding: 7px 13px;
+
+    border-radius: 100px;
+
+    background:
+        rgba(255,255,255,.12);
+
+    border:
+        1px solid
+        rgba(255,255,255,.22);
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.hero h2 {
+    margin-top: 18px;
+
+    font-size:
+        clamp(34px, 5vw, 60px);
+
+    line-height: 1.02;
+}
+
+.hero p {
+    margin-top: 17px;
+
+    max-width: 760px;
+
+    color: #dce7ff;
+
+    line-height: 1.7;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+
+    margin-top: 26px;
+}
+
+.primary-btn,
+.orange-btn {
+    border: none;
+
+    padding: 14px 20px;
+
+    border-radius: 12px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.primary-btn {
+    background: white;
+    color: var(--navy);
+}
+
+.orange-btn {
+    background: var(--orange);
+    color: #241200;
+}
+
+/* =========================================================
+   SECTION
+========================================================= */
+
+.section {
+    margin-top: 32px;
+}
+
+.section-heading {
+    margin-bottom: 16px;
+}
+
+.section-heading h2 {
+    color: var(--navy);
+    font-size: 28px;
+}
+
+.section-heading p {
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+/* =========================================================
+   MAIN GRID
+========================================================= */
+
+.main-grid {
+    display: grid;
+
+    grid-template-columns:
+        1.25fr
+        .75fr;
+
+    gap: 22px;
+}
+
+.card {
+    background: white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 22px;
+
+    padding: 26px;
+
+    box-shadow: var(--shadow);
+}
+
+/* =========================================================
+   LANGUAGE
+========================================================= */
+
+.top-fields {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+}
+
+.field label {
+    display: block;
+
+    color: #344054;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    margin-bottom: 7px;
+}
+
+select,
+input {
+    width: 100%;
+
+    padding: 13px;
+
+    border:
+        1px solid #cfd7e4;
+
+    border-radius: 12px;
+
+    background: white;
+
+    color: var(--text);
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+select:focus,
+input:focus {
+    border-color: var(--blue);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(21,87,192,.10);
+}
+
+/* =========================================================
+   ASSISTANT
+========================================================= */
+
+.assistant-box {
+    padding: 22px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fbfcff,
+            #f4f7fc
+        );
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    margin-bottom: 14px;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: #98a2b3;
+}
+
+.status-dot.active {
+    background: var(--green);
+
+    box-shadow:
+        0 0 0 6px
+        rgba(19,136,8,.10);
+}
+
+.question {
+    min-height: 125px;
+
+    padding: 22px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 16px;
+
+    background: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    color: var(--navy);
+
+    font-size: 21px;
+
+    line-height: 1.5;
+
+    font-weight: 750;
+}
+
+/* =========================================================
+   VOICE
+========================================================= */
+
+.voice-controls {
+    margin-top: 20px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+}
+
+.mic-button {
+    width: 78px;
+    height: 78px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--blue),
+            #2877e4
+        );
+
+    color: white;
+
+    font-size: 29px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 28px
+        rgba(21,87,192,.30);
+
+    transition: .2s;
+}
+
+.mic-button:hover {
+    transform: scale(1.05);
+}
+
+.mic-button.recording {
+    background: var(--red);
+
+    animation:
+        pulse 1.15s infinite;
+}
+
+@keyframes pulse {
+
+    0% {
+        box-shadow:
+            0 0 0 0
+            rgba(217,45,32,.35);
+    }
+
+    70% {
+        box-shadow:
+            0 0 0 19px
+            rgba(217,45,32,0);
+    }
+
+    100% {
+        box-shadow:
+            0 0 0 0
+            rgba(217,45,32,0);
+    }
+}
+
+.control-btn {
+    border:
+        1px solid var(--border);
+
+    background: white;
+
+    color: var(--navy);
+
+    padding: 11px 15px;
+
+    border-radius: 11px;
+
+    font-weight: 750;
+
+    cursor: pointer;
+}
+
+.control-btn:hover {
+    border-color: var(--blue);
+}
+
+/* =========================================================
+   TRANSCRIPT
+========================================================= */
+
+.transcript-title {
+    margin-top: 20px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+}
+
+.transcript {
+    min-height: 50px;
+
+    margin-top: 7px;
+
+    padding: 12px 14px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 11px;
+
+    background: white;
+
+    color: var(--text);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress-area {
+    margin-top: 20px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.progress-top {
+    display: flex;
+    justify-content: space-between;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    font-weight: 750;
+}
+
+.progress-track {
+    height: 8px;
+
+    margin-top: 7px;
+
+    border-radius: 100px;
+
+    overflow: hidden;
+
+    background: #e8edf4;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--orange),
+            var(--green)
+        );
+
+    transition: width .4s;
+}
+
+/* =========================================================
+   ANSWERS
+========================================================= */
+
+.answers {
+    margin-top: 20px;
+}
+
+.answer {
+    padding: 12px 0;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+.answer:last-child {
+    border-bottom: none;
+}
+
+.answer-label {
+    color: var(--muted);
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+
+    font-weight: 800;
+}
+
+.answer-text {
+    color: var(--navy);
+
+    font-size: 14px;
+
+    margin-top: 4px;
+
+    line-height: 1.5;
+}
+
+/* =========================================================
+   RIGHT FEATURES
+========================================================= */
+
+.feature-list {
+    margin-top: 18px;
+
+    display: grid;
+
+    gap: 12px;
+}
+
+.feature {
+    display: flex;
+
+    gap: 12px;
+
+    padding: 15px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 14px;
+
+    background: #fbfcfe;
+}
+
+.feature-icon {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 11px;
+
+    background: var(--blue-light);
+
+    font-size: 20px;
+}
+
+.feature strong {
+    color: var(--navy);
+
+    font-size: 14px;
+}
+
+.feature p {
+    color: var(--muted);
+
+    margin-top: 3px;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+.result-section {
+    display: none;
+}
+
+.result-section.visible {
+    display: block;
+}
+
+.result-card {
+    background: white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 23px;
+
+    overflow: hidden;
+
+    box-shadow: var(--shadow);
+}
+
+.result-header {
+    padding: 31px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #06164b,
+            var(--blue)
+        );
+
+    color: white;
+}
+
+.result-header small {
+    color: #cfddff;
+
+    font-weight: 700;
+}
+
+.result-header h2 {
+    margin-top: 7px;
+
+    font-size: 32px;
+}
+
+.result-body {
+    padding: 28px;
+}
+
+.result-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 13px;
+}
+
+.result-item {
+    padding: 16px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 14px;
+
+    background: #fbfcfe;
+}
+
+.result-item small {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    font-weight: 800;
+}
+
+.result-item strong {
+    display: block;
+
+    margin-top: 6px;
+
+    color: var(--navy);
+
+    line-height: 1.5;
+}
+
+.explanation {
+    margin-top: 18px;
+
+    padding: 19px;
+
+    border-left:
+        5px solid var(--orange);
+
+    border-radius: 12px;
+
+    background: #fff8ef;
+
+    line-height: 1.7;
+}
+
+.voice-result {
+    margin-top: 18px;
+
+    padding: 19px;
+
+    border:
+        1px solid #cde7ca;
+
+    border-radius: 14px;
+
+    background: #f2fbf1;
+
+    color: #155d0f;
+
+    line-height: 1.6;
+}
+
+/* =========================================================
+   OFFICIAL LINKS
+========================================================= */
+
+.links-heading {
+    margin-top: 27px;
+
+    color: var(--navy);
+
+    font-size: 20px;
+}
+
+.links-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+
+    margin-top: 12px;
+}
+
+.official-link {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 15px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 13px;
+
+    color: var(--navy);
+
+    text-decoration: none;
+
+    font-weight: 800;
+
+    background: white;
+
+    transition: .2s;
+}
+
+.official-link:hover {
+    border-color: var(--blue);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(21,87,192,.10);
+}
+
+/* =========================================================
+   DASHBOARD TABLE CSS (NEW)
+========================================================= */
+.dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    text-align: left;
+}
+.dashboard-table th {
+    background: #fbfcfe;
+    color: var(--navy);
+    padding: 15px;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 800;
+    border-bottom: 2px solid var(--border);
+}
+.dashboard-table td {
+    padding: 16px 15px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    font-size: 14px;
+}
+.dashboard-table tr:hover {
+    background: #f4f7fc;
+}
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    background: #eaf2ff;
+    color: var(--blue);
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    margin-top: 45px;
+
+    padding: 30px 0;
+
+    border-top:
+        1px solid var(--border);
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    line-height: 1.7;
+    text-align: center;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width: 950px) {
+
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media(max-width: 700px) {
+
+    .navbar {
+        padding: 12px 0;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .hero {
+        padding: 30px 22px;
+    }
+
+    .hero h2 {
+        font-size: 37px;
+    }
+
+    .top-fields,
+    .result-grid,
+    .links-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        padding: 20px;
+    }
+    
+    .dashboard-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="govt-topbar">
+    GOVERNMENT OF INDIA | MINISTRY OF SKILL DEVELOPMENT AND ENTREPRENEURSHIP
+</div>
+<div class="flag-strip"></div>
+
+<header>
+
+    <div class="navbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🇮🇳
+            </div>
+
+            <div class="brand-text">
+
+                <h1>
+                    JanSahay AI
+                </h1>
+
+                <p>
+                    Voice-First Skill & Career Assistant
+                </p>
+
+            </div>
+
+        </div>
+
+        <nav class="nav">
+
+            <button onclick="scrollToSection('assistant')">
+                Assistant
+            </button>
+
+            <button onclick="scrollToSection('result')">
+                Result
+            </button>
+            
+            <button onclick="scrollToSection('dashboard')">
+                Dashboard
+            </button>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="badge">
+            🇮🇳 AI-POWERED VOICE ASSISTANT
+        </span>
+
+        <h2>
+            Speak naturally.
+            Get the right pathway.
+        </h2>
+
+        <p>
+            JanSahay AI helps users describe their education,
+            experience, interests and goals using their own voice.
+            The assistant can understand regional languages and
+            provide a personalized skill and career pathway.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button
+                class="primary-btn"
+                onclick="startAssistant()"
+            >
+                🎙️ Start Assistant
+            </button>
+
+            <button
+                class="orange-btn"
+                onclick="scrollToSection('dashboard')"
+            >
+                📊 View Analytics
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ASSISTANT
+===================================================== -->
+
+<section
+    class="section"
+    id="assistant"
+>
+
+    <div class="section-heading">
+
+        <h2>
+            🎙️ Voice-First Assistant
+        </h2>
+
+        <p>
+            Select a language and answer naturally.
+            The AI will handle the conversation.
+        </p>
+
+    </div>
+
+
+    <div class="main-grid">
+
+
+        <!-- LEFT CARD -->
+
+        <div class="card">
+
+            <div class="top-fields">
+
+                <div class="field">
+
+                    <label>
+                        Preferred Language
+                    </label>
+
+                    <select id="language">
+                        <option value="English">English</option>
+                        <option value="Telugu">తెలుగు — Telugu</option>
+                        <option value="Tamil">தமிழ் — Tamil</option>
+                        <option value="Hindi">हिन्दी — Hindi</option>
+                        <option value="Bengali">বাংলা — Bengali</option>
+                        <option value="Marathi">मराठी — Marathi</option>
+                        <option value="Gujarati">ગુજરાતી — Gujarati</option>
+                        <option value="Kannada">ಕನ್ನಡ — Kannada</option>
+                        <option value="Malayalam">മലയാളം — Malayalam</option>
+                        <option value="Odia">ଓଡ଼ିଆ — Odia</option>
+                        <option value="Punjabi">ਪੰਜਾਬੀ — Punjabi</option>
+                        <option value="Urdu">اردو — Urdu</option>
+                    </select>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label>
+                        Name
+                    </label>
+
+                    <input
+                        id="userName"
+                        placeholder="Optional"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="assistant-box">
+
+
+                <div class="status">
+
+                    <span
+                        id="statusDot"
+                        class="status-dot"
+                    ></span>
+
+                    <span id="statusText">
+                        Ready
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="question"
+                    class="question"
+                >
+
+                    Select your language and click
+                    "Start Assistant".
+
+                </div>
+
+
+                <div class="voice-controls">
+
+                    <button
+                        id="micButton"
+                        class="mic-button"
+                        onclick="toggleMicrophone()"
+                        title="Start or stop microphone"
+                    >
+                        🎙️
+                    </button>
+
+                    <button
+                        class="control-btn"
+                        onclick="repeatQuestion()"
+                    >
+                        🔊 Repeat
+                    </button>
+
+                    <button
+                        class="control-btn"
+                        onclick="startAssistant()"
+                    >
+                        🔄 Restart
+                    </button>
+
+                </div>
+
+
+                <div class="transcript-title">
+                    Live transcript
+                </div>
+
+                <div
+                    id="transcript"
+                    class="transcript"
+                >
+                    Your spoken answer will appear here.
+                </div>
+
+
+                <div class="progress-area">
+
+                    <div class="progress-top">
+
+                        <span id="progressText">
+                            Ready
+                        </span>
+
+                        <span id="progressPercent">
+                            0%
+                        </span>
+
+                    </div>
+
+                    <div class="progress-track">
+
+                        <div
+                            id="progressBar"
+                            class="progress-bar"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="answers"
+                    class="answers"
+                ></div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT CARD -->
+
+        <div class="card">
+
+            <h2 style="color:var(--navy);">
+                🤖 What happens here?
+            </h2>
+
+
+            <div class="feature-list">
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">🗣️</div>
+
+                    <div>
+
+                        <strong>Natural conversation</strong>
+
+                        <p>The user can explain their situation instead of filling long forms.</p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">🌏</div>
+
+                    <div>
+
+                        <strong>Indian regional languages</strong>
+
+                        <p>Designed for Telugu, Tamil, Hindi and other supported Indian languages.</p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">🧠</div>
+
+                    <div>
+
+                        <strong>AI understanding</strong>
+
+                        <p>The backend will interpret the meaning of answers rather than relying only on simple keywords.</p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">🔄</div>
+
+                    <div>
+
+                        <strong>Adaptive questions</strong>
+
+                        <p>The next question can be selected based on what the user has already said.</p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">🔊</div>
+
+                    <div>
+
+                        <strong>Voice resolution</strong>
+
+                        <p>The final recommendation can be read aloud in the selected language.</p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">🔗</div>
+
+                    <div>
+
+                        <strong>Direct official resources</strong>
+
+                        <p>Users can continue directly to relevant official websites.</p>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     RESULT
+===================================================== -->
+
+<section
+    class="section result-section"
+    id="result"
+>
+
+    <div class="section-heading">
+
+        <h2>
+            🧠 Personalized Resolution
+        </h2>
+
+        <p>
+            The AI-generated pathway will appear here.
+        </p>
+
+    </div>
+
+
+    <div class="result-card">
+
+
+        <div class="result-header">
+
+            <small>
+                RECOMMENDED PATHWAY
+            </small>
+
+            <h2 id="resultTitle">
+                Waiting for assessment...
+            </h2>
+
+        </div>
+
+
+        <div class="result-body">
+
+
+            <div class="result-grid">
+
+
+                <div class="result-item">
+                    <small>INTEREST</small>
+                    <strong id="resultInterest">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <small>RECOMMENDED SKILL</small>
+                    <strong id="resultSkill">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <small>EDUCATION</small>
+                    <strong id="resultEducation">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <small>EXPERIENCE</small>
+                    <strong id="resultExperience">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <small>CAREER AREA</small>
+                    <strong id="resultCareer">—</strong>
+                </div>
+
+                <div class="result-item">
+                    <small>SUPPORT PATH</small>
+                    <strong id="resultSupport">—</strong>
+                </div>
+
+            </div>
+
+
+            <div class="explanation">
+
+                <strong>
+                    💡 Why this recommendation?
+                </strong>
+
+                <p
+                    id="resultExplanation"
+                    style="margin-top:7px;"
+                >
+                    —
+                </p>
+
+            </div>
+
+
+            <div class="voice-result">
+
+                <strong>
+                    🔊 Voice Resolution
+                </strong>
+
+                <p
+                    id="voiceResult"
+                    style="margin-top:7px;"
+                >
+                    The final recommendation will be spoken here.
+                </p>
+
+                <button
+                    class="control-btn"
+                    style="margin-top:12px;"
+                    onclick="speakResult()"
+                >
+                    🔊 Speak Again
+                </button>
+
+            </div>
+
+
+            <h3
+                id="resources"
+                class="links-heading"
+            >
+                🌐 Official Resources
+            </h3>
+
+
+            <div class="links-grid" id="dynamicLinksGrid">
+                <!-- Links will be dynamically populated here by the AI -->
+            </div>
+
+            <!-- WHATSAPP BUTTON -->
+            <button
+                class="orange-btn"
+                style="margin-top: 25px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px; background-color: #25D366; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer;"
+                onclick="sendToWhatsApp()"
+            >
+                📱 Send Pathway via WhatsApp
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     DASHBOARD (NEW)
+===================================================== -->
+<section
+    class="section"
+    id="dashboard"
+>
+    <div class="section-heading">
+        <h2>📊 Live Analytics Dashboard</h2>
+        <p>Real-time citizen assessments processed by JanSahay AI.</p>
+    </div>
+
+    <div class="card" style="padding: 0; overflow: hidden;">
+        
+        <!-- Empty State -->
+        <div id="emptyDashboardMsg" style="text-align:center; padding: 50px 20px; color: var(--muted);">
+            <div style="font-size: 40px; margin-bottom: 10px;">📋</div>
+            <h3 style="color: var(--navy); margin-bottom: 5px;">No Data Available Yet</h3>
+            <p>Complete a voice assessment above to automatically populate the government database.</p>
+        </div>
+
+        <!-- Populated Table -->
+        <table class="dashboard-table" id="dashboardTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Citizen Name & Time</th>
+                    <th>Recommended Skill</th>
+                    <th>Career Field</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="dashboardBody">
+                <!-- Dynamic rows injected here -->
+            </tbody>
+        </table>
+        
+    </div>
+</section>
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+    <strong>JanSahay AI</strong> — Official Demonstration Portal<br>
+    Built for Smart India Hackathon 2025 Internals<br><br>
+    This interface is a demonstration. Recommendations should be verified using the relevant official government portals.
+</footer>
+
+</main>
+
+
+<script>
+
+let state = {
+    running: false,
+    listening: false,
+    language: "English",
+    sessionId: null,
+    currentQuestion: "",
+    answers: [],
+    recognition: null,
+    finalResult: null,
+    // NEW: Array to store completed assessments dynamically
+    assessmentHistory: [] 
+};
+
+const languageCodes = {
+    English: "en-IN",
+    Telugu: "te-IN",
+    Tamil: "ta-IN",
+    Hindi: "hi-IN",
+    Bengali: "bn-IN",
+    Marathi: "mr-IN",
+    Gujarati: "gu-IN",
+    Kannada: "kn-IN",
+    Malayalam: "ml-IN",
+    Odia: "or-IN",
+    Punjabi: "pa-IN",
+    Urdu: "ur-IN"
+};
+
+function $(id) {
+    return document.getElementById(id);
+}
+
+function scrollToSection(id) {
+    const element = $(id);
+    if (!element) return;
+    element.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/* =========================================================
+   STATUS UPDATER 
+========================================================= */
+function setStatus(text, active = false) {
+    $("statusText").textContent = text;
+    if (active) {
+        $("statusDot").classList.add("active");
+    } else {
+        $("statusDot").classList.remove("active");
+    }
+}
+
+function speak(text, language = state.language) {
+    if (!("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = languageCodes[language] || "en-IN";
+    utterance.rate = 0.9;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+    window.speechSynthesis.speak(utterance);
+}
+
+async function startAssistant() {
+    state.language = $("language").value;
+    state.running = true;
+    state.answers = [];
+    state.finalResult = null;
+    $("answers").innerHTML = "";
+    $("result").classList.remove("visible");
+    $("transcript").textContent = "Waiting for your answer...";
+    setStatus("Starting assistant...", true);
+
+    try {
+        const response = await fetch("/api/start", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ language: state.language, name: $("userName").value.trim() })
+        });
+
+        if (!response.ok) throw new Error("Backend returned " + response.status);
+
+        const data = await response.json();
+        state.sessionId = data.session_id;
+        state.currentQuestion = data.question || "";
+        showQuestion(state.currentQuestion, data.question_number || 1, data.total_questions || 7);
+        speak(state.currentQuestion, state.language);
+        setStatus("Ready — press the microphone and speak.", true);
+        
+        scrollToSection("assistant");
+
+    } catch(error) {
+        console.error(error);
+        setStatus("Backend connection failed.", false);
+        $("question").textContent = "The AI backend is not running. We will connect it in the next step.";
+    }
+}
+
+function showQuestion(question, number, total) {
+    state.currentQuestion = question;
+    $("question").textContent = question;
+    const percentage = Math.round(((number - 1) / total) * 100);
+    $("progressText").textContent = "Question " + number + " of " + total;
+    $("progressPercent").textContent = percentage + "%";
+    $("progressBar").style.width = percentage + "%";
+}
+
+function toggleMicrophone() {
+    if (!state.running) {
+        startAssistant();
+        return;
+    }
+    if (state.listening) {
+        stopListening();
+    } else {
+        startListening();
+    }
+}
+
+function startListening() {
+    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!Recognition) {
+        setStatus("Voice recognition is unavailable in this browser.", false);
+        return;
+    }
+    if (state.listening) return;
+
+    state.recognition = new Recognition();
+    state.recognition.lang = languageCodes[state.language] || "en-IN";
+    state.recognition.continuous = false;
+    state.recognition.interimResults = true;
+    state.recognition.maxAlternatives = 1;
+
+    state.recognition.onstart = function() {
+        state.listening = true;
+        $("micButton").classList.add("recording");
+        $("micButton").textContent = "⏹️";
+        setStatus("Listening... speak now.", true);
+    };
+
+    state.recognition.onresult = function(event) {
+        let finalText = "";
+        let interimText = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+            const result = event.results[i];
+            const text = result[0].transcript;
+            if (result.isFinal) finalText += text;
+            else interimText += text;
+        }
+        $("transcript").textContent = finalText || interimText || "Listening...";
+        if (finalText.trim()) sendAnswer(finalText.trim());
+    };
+
+    state.recognition.onerror = function(event) {
+        console.error("Speech recognition:", event.error);
+        stopListening();
+        setStatus("I couldn't hear that. Please try again.", false);
+    };
+
+    state.recognition.onend = function() {
+        state.listening = false;
+        $("micButton").classList.remove("recording");
+        $("micButton").textContent = "🎙️";
+    };
+
+    try {
+        state.recognition.start();
+    } catch(error) {
+        console.error(error);
+    }
+}
+
+function stopListening() {
+    if (state.recognition) {
+        try { state.recognition.stop(); } catch(error) { console.log(error); }
+    }
+    state.listening = false;
+    $("micButton").classList.remove("recording");
+    $("micButton").textContent = "🎙️";
+}
+
+async function sendAnswer(text) {
+    stopListening();
+    $("transcript").textContent = text;
+    setStatus("AI is understanding your answer...", true);
+
+    try {
+        const response = await fetch("/api/message", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ session_id: state.sessionId, message: text, language: state.language })
+        });
+
+        if (!response.ok) throw new Error("Backend returned " + response.status);
+
+        const data = await response.json();
+
+        if (data.answer) {
+            state.answers.push({ question: state.currentQuestion, answer: text });
+            addAnswer(state.currentQuestion, text);
+        }
+
+        if (data.completed) {
+            finishAssessment(data.result);
+            return;
+        }
+
+        showQuestion(data.question, data.question_number, data.total_questions);
+        setStatus("Your answer was understood. Next question.", true);
+        speak(data.question, state.language);
+
+    } catch(error) {
+        console.error(error);
+        setStatus("AI processing failed. Please try again.", false);
+    }
+}
+
+function addAnswer(question, answer) {
+    const div = document.createElement("div");
+    div.className = "answer";
+    
+    const label = document.createElement("div");
+    label.className = "answer-label";
+    label.textContent = question;
+    
+    const text = document.createElement("div");
+    text.className = "answer-text";
+    text.textContent = answer;
+    
+    div.appendChild(label);
+    div.appendChild(text);
+    $("answers").appendChild(div);
+}
+
+function repeatQuestion() {
+    if (!state.currentQuestion) return;
+    speak(state.currentQuestion, state.language);
+}
+
+/* =========================================================
+   DASHBOARD LOGIC (NEW)
+========================================================= */
+function updateDashboard() {
+    const tbody = $("dashboardBody");
+    const emptyMsg = $("emptyDashboardMsg");
+    const table = $("dashboardTable");
+
+    if (state.assessmentHistory.length > 0) {
+        // Hide empty message, show table
+        emptyMsg.style.display = "none";
+        table.style.display = "table";
+
+        // Clear existing rows
+        tbody.innerHTML = "";
+
+        // Loop through history backwards so newest is on top
+        [...state.assessmentHistory].reverse().forEach(record => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>
+                    <strong>${record.name}</strong><br>
+                    <small style="color:var(--muted)">${record.time}</small>
+                </td>
+                <td><strong>${record.skill}</strong></td>
+                <td>${record.career}</td>
+                <td><span class="status-badge">COMPLETED</span></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+}
+
+function finishAssessment(result) {
+    state.running = false;
+    state.finalResult = result;
+    $("progressText").textContent = "Assessment complete";
+    $("progressPercent").textContent = "100%";
+    $("progressBar").style.width = "100%";
+    setStatus("Assessment complete.", true);
+
+    if (!result) return;
+
+    $("resultTitle").textContent = result.title || "Recommendation";
+    $("resultInterest").textContent = result.interest || "—";
+    $("resultSkill").textContent = result.skill || "—";
+    $("resultEducation").textContent = result.education || "—";
+    $("resultExperience").textContent = result.experience || "—";
+    $("resultCareer").textContent = result.career || "—";
+    $("resultSupport").textContent = result.support || "—";
+    $("resultExplanation").textContent = result.explanation || "—";
+    $("voiceResult").textContent = result.voice_text || result.explanation || "Your recommendation is ready.";
+    
+    // --- DYNAMIC LINKS LOGIC ---
+    const linksGrid = $("dynamicLinksGrid");
+    linksGrid.innerHTML = ""; 
+
+    if (result.resources && result.resources.length > 0) {
+        result.resources.forEach(res => {
+            const a = document.createElement("a");
+            a.className = "official-link";
+            a.href = res.url;
+            a.target = "_blank";
+            a.rel = "noopener";
+            a.innerHTML = `<span>🔗 ${res.name}</span><span>↗</span>`;
+            linksGrid.appendChild(a);
+        });
+    } else {
+        linksGrid.innerHTML = `
+            <a class="official-link" href="https://www.myscheme.gov.in/" target="_blank" rel="noopener">
+                <span>🏛️ MyScheme Government Portal</span><span>↗</span>
+            </a>`;
+    }
+    
+    // --- NEW: ADD TO DASHBOARD ---
+    const currentName = $("userName").value.trim() || "Anonymous Citizen";
+    
+    state.assessmentHistory.push({
+        name: currentName,
+        skill: result.skill || "N/A",
+        career: result.career || "N/A",
+        time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+    });
+    
+    // Re-render the dashboard table
+    updateDashboard();
+
+    $("result").classList.add("visible");
+    scrollToSection("result");
+    
+    if (result.voice_text) {
+        setTimeout(function() { speak(result.voice_text, state.language); }, 500);
+    }
+}
+
+function speakResult() {
+    if (!state.finalResult) return;
+    const text = state.finalResult.voice_text || state.finalResult.explanation || state.finalResult.title;
+    speak(text, state.language);
+}
+
+function sendToWhatsApp() {
+    if (!state.finalResult) {
+        alert("Please complete the assessment first!");
+        return;
+    }
+    
+    let linksText = "";
+    if (state.finalResult.resources && state.finalResult.resources.length > 0) {
+        state.finalResult.resources.forEach(res => {
+            linksText += `${res.name}: ${res.url}\n`;
+        });
+    }
+
+    const message = 
+        `*JanSahay AI - Official Recommendation* 🇮🇳\n\n` +
+        `*Pathway:* ${state.finalResult.title}\n` +
+        `*Recommended Skill:* ${state.finalResult.skill}\n` +
+        `*Experience Noted:* ${state.finalResult.experience}\n\n` +
+        `*Next Step:* ${state.finalResult.support}\n\n` +
+        `*Official Portals to Apply:*\n${linksText}`;
+
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/?text=${encodedMessage}`, "_blank");
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    $("language").addEventListener("change", function() {
+        state.language = this.value;
+    });
+});
+
+</script>
+
+</body>
+</html>
